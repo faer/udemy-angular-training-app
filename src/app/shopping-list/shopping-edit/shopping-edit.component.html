@@ -27,11 +27,15 @@
             (click)="onAddItem()">
             Add
           </button>
-          <button class="btn btn-danger" type="submit">Delete</button>
+          <button
+            class="btn btn-danger"
+            type="submit"
+            (click)="onDeleteItem()"
+          >Delete</button>
           <button
             class="btn btn-primary"
             type="submit"
-            (click)="onCleanUpList()"
+            (click)="onClearList()"
           >Clear</button>
         </div>
       </div>

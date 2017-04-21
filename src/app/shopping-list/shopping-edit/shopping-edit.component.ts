@@ -12,9 +12,8 @@ export class ShoppingEditComponent implements OnInit {
   @ViewChild('nameInput') name: ElementRef;
   @ViewChild('amountInput') amount: ElementRef;
   // @Output() ingredientToAdd = new EventEmitter<Ingredient>();
-  @Output() cleanIngredients = new EventEmitter<void>();
 
-  constructor(private shoppingListService: ShoppingListService) { }
+  constructor(private shoppingListService: ShoppingListService) {}
 
   ngOnInit() {
   }
@@ -27,8 +26,14 @@ export class ShoppingEditComponent implements OnInit {
     this.shoppingListService.addItem(ingredient);
   }
 
-  onCleanUpList() {
-    this.cleanIngredients.emit();
+  onClearList() {
+    this.shoppingListService.clearItems();
   }
 
+  onDeleteItem() {
+    const ingredientName = this.name.nativeElement.value;
+    const ingredientAmount = this.amount.nativeElement.value;
+    const ingredient = new Ingredient(ingredientName, ingredientAmount);
+    this.shoppingListService.deleteItem(ingredient);
+  }
 }

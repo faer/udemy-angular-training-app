@@ -27,4 +27,25 @@ export class ShoppingListService {
     this.ingredientsChanged.emit(this.ingredients.slice());
   }
 
+  clearItems() {
+    this.ingredients = [];
+    this.ingredientsChanged.emit(this.getIngredients().slice());
+  }
+
+  deleteItem(ingredient: Ingredient) {
+    const index = this.getIndexForIngredient(ingredient);
+    this.ingredients.splice(index, 1);
+    this.ingredientsChanged.emit(this.ingredients.slice());
+  }
+
+  private getIndexForIngredient(ingredient: Ingredient) {
+    let indexFounded;
+    this.ingredients.some(
+      (ing, index) => {
+        indexFounded = index;
+      return ing.name === ingredient.name;
+    });
+    return indexFounded;
+  }
+
 }

@@ -1,10 +1,12 @@
 import { Ingredient } from '../shared/ingredient.model';
 import { EventEmitter } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
 
 
 export class ShoppingListService {
 
-  ingredientsChanged = new EventEmitter<Ingredient[]>();
+  ingredientsChanged = new Subject<Ingredient[]>();
+  ingredientToEdit= new Subject<number>();
 
   private ingredients: Ingredient[] = [
     new Ingredient('Apples', 5),
@@ -17,35 +19,28 @@ export class ShoppingListService {
     return this.ingredients.slice();
   }
 
-  addItem(ingredient: Ingredient) {
+  addIngredient(ingredient: Ingredient) {
     this.ingredients.push(ingredient);
-    this.ingredientsChanged.emit(this.ingredients.slice());
+    this.ingredientsChanged.next(this.ingredients.slice());
   }
 
-  addItems(ingredients: Ingredient[]) {
+  addIngredients(ingredients: Ingredient[]) {
     this.ingredients.push(... ingredients);
-    this.ingredientsChanged.emit(this.ingredients.slice());
+    this.ingredientsChanged.next(this.ingredients.slice());
   }
 
-  clearItems() {
-    this.ingredients = [];
-    this.ingredientsChanged.emit(this.getIngredients().slice());
-  }
-
-  deleteItem(ingredient: Ingredient) {
-    const index = this.getIndexForIngredient(ingredient);
+  deleteIngredient(index: number) {
     this.ingredients.splice(index, 1);
-    this.ingredientsChanged.emit(this.ingredients.slice());
+    this.ingredientsChanged.next(this.ingredients.slice());
   }
 
-  private getIndexForIngredient(ingredient: Ingredient) {
-    let indexFounded;
-    this.ingredients.some(
-      (ing, index) => {
-        indexFounded = index;
-      return ing.name === ingredient.name;
-    });
-    return indexFounded;
+  getIngredient(id: number): Ingredient {
+    return this.ingredients[id];
+  }
+
+  updateIngredient(ingredient: Ingredient, index: number) {
+    this.ingredients[index] = ingredient;
+    this.ingredientsChanged.next(this.ingredients.slice());
   }
 
 }

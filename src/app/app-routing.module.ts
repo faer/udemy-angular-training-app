@@ -15,7 +15,7 @@ const appRoutes: Routes = [
     {path: '', component: RecipeStartComponent},
     {path: 'new', component: RecipeEditComponent},
     {path: ':id', component: RecipesDetailComponent, resolve: {recipe: RecipeResolver}},
-    {path: ': id/edit', component: RecipeEditComponent, resolve: {recipe: RecipeResolver}}
+    {path: ':id/edit', component: RecipeEditComponent, resolve: {recipe: RecipeResolver}}
   ]},
   {path: 'shopping-list', component: ShoppingListComponent}
 ];
